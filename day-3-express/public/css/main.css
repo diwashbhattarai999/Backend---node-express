@@ -41,13 +41,29 @@
   color: #2a781f;
 }
 
+button {
+  font: inherit;
+  border: none;
+  background-color: #2a781f;
+  color: white;
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+button:hover,
+button:active {
+  background-color: #3a9d2d;
+  cursor: pointer;
+}
+
 main {
   margin: 3rem 0;
 }
 
 .main {
   margin: 3rem 0;
-  height: 40vh;
   display: flex;
   align-items: center;
   justify-content: center;
