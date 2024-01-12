@@ -9,15 +9,7 @@ const shopRoutes = require("./routes/shop");
 
 const app = express();
 
-app.engine(
-  "hbs",
-  expressHbs.create({
-    layoutsDir: path.join(__dirname, "views/layouts/"),
-    defaultLayout: "main-layout",
-    extname: "hbs",
-  }).engine
-);
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 app.set("views", "views");
 
 app.use(bodyParser.urlencoded({ extended: false }));
