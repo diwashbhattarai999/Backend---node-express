@@ -50,6 +50,12 @@ button {
   border-radius: 3px;
   font-size: 1.1rem;
   font-weight: 600;
+  width: 100%;
+}
+
+.admin-btns {
+  display: flex;
+  justify-content: space-between;
 }
 
 button:hover,
