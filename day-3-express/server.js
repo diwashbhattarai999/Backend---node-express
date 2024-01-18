@@ -6,6 +6,8 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const { getPageNotFound } = require("./controllers/error");
 
+const db = require("./utils/db");
+
 const app = express();
 
 app.set("view engine", "ejs");
