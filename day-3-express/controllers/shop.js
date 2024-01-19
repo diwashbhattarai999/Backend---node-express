@@ -6,7 +6,7 @@ exports.getProducts = (req, res, next) => {
     .then(([rows, fieldData]) => {
       res.render("shop/product-list", {
         prods: rows,
-        docTitle: "All Product s",
+        docTitle: "All Products",
         path: "/products",
       });
     })
@@ -15,23 +15,27 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId, (product) => {
-    res.render("shop/product-detail", {
-      product,
-      docTitle: product.title,
-      path: "/product",
-    });
-  });
+  Product.findById(prodId)
+    .then(([product]) => {
+      res.render("shop/product-detail", {
+        product: product[0],
+        docTitle: product.title,
+        path: "/product",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render("shop/index", {
-      prods: products,
-      docTitle: "Shop",
-      path: "/shop",
-    });
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      res.render("shop/index", {
+        prods: rows,
+        docTitle: "Shop",
+        path: "/shop",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
