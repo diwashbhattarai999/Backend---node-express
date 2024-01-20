@@ -6,7 +6,7 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const { getPageNotFound } = require("./controllers/error");
 
-const db = require("./utils/db");
+const mongoConnect = require("./utils/db").mongoConnect;
 
 const app = express();
 
@@ -16,9 +16,20 @@ app.set("views", "views");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  // User.findByPk(1)
+  //   .then((user) => {
+  //     req.user = user;
+  //     next();
+  //   })
+  //   .catch((err) => console.log(err));
+  next();
+});
+
 app.use("/admin", adminRoutes.routes);
 app.use(shopRoutes);
-
 app.use(getPageNotFound);
 
-app.listen(3000);
+mongoConnect(() => {
+  app.listen(3000);
+});

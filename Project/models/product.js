@@ -1,29 +1,55 @@
-const db = require("../utils/db");
-const Cart = require("./cart");
+const getDb = require("../utils/db").getDb;
 
-module.exports = class Product {
-  constructor(id, title, imageUrl, description, price) {
-    this.id = id;
+class Product {
+  constructor(title, price, description, imageUrl) {
     this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
     this.price = price;
+    this.description = description;
+    this.imageUrl = imageUrl;
   }
 
   save() {
-    return db.execute(
-      "INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)",
-      [this.title, this.price, this.description, this.imageUrl]
-    );
+    const db = getDb();
+    return db
+      .collection("products")
+      .insertOne(this)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
-  static deleteById(id) {}
 
   static fetchAll() {
-    return db.execute("SELECT * FROM products");
+    const db = getDb();
+    return db
+      .collection("products")
+      .find()
+      .toArray()
+      .then((products) => {
+        console.log(products);
+        return products;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  static findById(id) {
-    return db.execute("SELECT * FROM products WHERE products.id = ?", [id]);
+  static findById(prodId) {
+    const db = getDb();
+    return db
+      .collection("products")
+      .find({ _id: prodId })
+      .next()
+      .then((product) => {
+        console.log(product);
+        console.log(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-};
+}
+
+module.exports = Product;
