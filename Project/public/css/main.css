@@ -88,3 +88,7 @@ main {
   align-items: center;
   justify-content: center;
 }
+
+.center__main {
+  height: 40vh;
+}
