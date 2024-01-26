@@ -6,6 +6,7 @@
 
 a {
   text-decoration: none;
+  font-family: monospace;
 }
 
 ul {
@@ -18,21 +19,35 @@ img {
 
 .main-header {
   width: 100%;
-  height: 3.5rem;
-  background-color: #94f09d;
+  height: 62px;
+  background-color: #121212;
+  color: whitesmoke;
 }
 
 .main-header__nav {
   height: 100%;
-  width: 100%;
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.main-header__logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: cursive;
+  color: rgb(234, 234, 234);
+}
+
+.main-header__logo span {
+  color: #ff5c10;
 }
 
 .main-header__item-list {
   list-style: none;
-  height: 100%;
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -40,30 +55,35 @@ img {
 
 .main-header__item {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .main-header__item a {
   text-decoration: none;
-  color: rgb(0, 0, 0);
+  color: rgb(233, 233, 233);
+  padding: 0.2rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
 }
 
 .main-header__item a:hover,
 .main-header__item a:active,
 .main-header__item a.active {
-  color: #2a781f;
+  color: #ff5c10;
+  border-bottom: 2px solid #ff5c10;
 }
 
 button,
 .btn {
   font: inherit;
   border: none;
-  background-color: #2a781f;
+  background-color: #121212;
   color: white;
   padding: 12px;
   border-radius: 3px;
   font-size: 1.1rem;
   font-weight: 600;
+  font-family: monospace;
   width: 100%;
 }
 
@@ -73,9 +93,12 @@ button,
 }
 
 button:hover,
-button:active {
-  background-color: #3a9d2d;
+button:active,
+.btn:hover,
+.btn:active {
+  background-color: #212121;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 main {
@@ -87,4 +110,32 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.center__main {
+  height: 40vh;
+}
+
+@media screen and (max-width: 860px) {
+  .main-header {
+    height: 130px;
+  }
+
+  .main-header__nav {
+    width: 95%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 0;
+  }
+
+  .main-header__item {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .main-header__item-list {
+    gap: 1.4rem;
+  }
 }

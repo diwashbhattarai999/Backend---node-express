@@ -4,18 +4,18 @@
 
 <body>
   <%- include('../includes/navigation.ejs') %>
-  <main class="main order__main">
+  <main class="main <%= products.length <= 0 ? 'center__main' : 'cart__main' %>">
     <% if (products.length > 0) { %>
     <ul class="cart__items">
       <% products.forEach(p => { %>
       <li class="cart__item">
         <div class="cart__item-info">
-          <img class="cart__item-img" src="<%= p.imageUrl %>" alt="<%= p.title %>">
-          <h3><%= p.title %></h3>
+          <img class="cart__item-img" src="<%= p.productId.imageUrl %>" alt="<%= p.title %>">
+          <h3><%= p.productId.title %></h3>
         </div>
-        <h5>Quantity: <%= p.cartItem.quantity %></h5>
+        <h5>Quantity: <%= p.quantity %></h5>
         <form action="/cart-delete-item" method="post">
-          <input type="hidden" value="<%= p.id  %>" name="productId">
+          <input type="hidden" value="<%= p.productId._id  %>" name="productId">
           <button type="submit">Delete</button>
         </form>
       </li>
