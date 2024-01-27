@@ -24,9 +24,9 @@
             <%= product.description %>
           </p>
         </div>
-        <div class="card__actions">
+        <form action="/cart" method="POST" class="card__actions">
           <%- include('../includes/add-to-cart.ejs', {product}) %>
-        </div>
+        </form>
       </article>
       <% } %>
     </div>
