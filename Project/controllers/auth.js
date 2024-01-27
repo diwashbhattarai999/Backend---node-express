@@ -1,6 +1,17 @@
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const User = require("../models/user");
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        "SG.2deuDoZlQ0e2gDTnKGsesA.0SGsfE7IEE0fLsDo5kfCf_w7S265DYfN2mu7oNs0uBo",
+    },
+  })
+);
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash("error");
@@ -47,16 +58,23 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
-  let message = req.flash("error");
-  if (message.length > 0) {
-    message = message[0];
+  let errorMessage = req.flash("error");
+  let successMessage = req.flash("success");
+  if (errorMessage.length > 0) {
+    errorMessage = errorMessage[0];
   } else {
-    message = null;
+    errorMessage = null;
+  }
+  if (successMessage.length > 0) {
+    successMessage = successMessage[0];
+  } else {
+    successMessage = null;
   }
   res.render("auth/signup", {
     path: "/signup",
     docTitle: "Signup",
-    errorMessage: message,
+    errorMessage,
+    successMessage,
   });
 };
 
@@ -82,7 +100,14 @@ exports.postSignup = (req, res, next) => {
           return user.save();
         })
         .then((result) => {
-          res.redirect("/login");
+          req.flash("success", "Registered Suceesfull! Please Login");
+          res.redirect("/signup");
+          return transporter.sendMail({
+            to: email,
+            from: "diwashb999@gmail.com",
+            subject: "Signup succeeded!",
+            html: `<div><h1>You successfully signed up!</h1> <a href="http://localhost:4000/login" >Click here</a> to login</div>`,
+          });
         })
         .catch((err) => {
           console.log(err);
