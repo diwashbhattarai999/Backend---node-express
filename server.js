@@ -68,7 +68,7 @@ app.use(getPageNotFound);
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    app.listen(4000);
+    app.listen(3000);
   })
   .catch((err) => {
     console.log(err);
