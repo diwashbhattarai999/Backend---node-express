@@ -9,8 +9,8 @@
   <main class="main auth__main">
     <form class="login-form" action="/login" method="post">
       <div class="login-form__heading">
-        <h2>Welcome Back!</h2>
-        <h3>Login to your account</h3>
+        <h2>Forgot Your Password?</h2>
+        <h3>Reset Now!</h3>
       </div>
       <span></span>
       <div class="form-control">
@@ -18,23 +18,12 @@
         <input type="email" name="email" id="email" />
       </div>
 
-      <div class="form-control">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-      </div>
-
       <% if(errorMessage) { %>
       <div class="message error-message"><%= errorMessage %></div>
       <% } %>
 
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <button type="submit">Login</button>
-
-      <div class="forgot-reset">
-        Forgot Password ?
-        <a href="/reset" class="reset">Reset Now</a>
-      </div>
+      <button type="submit">Reset Password</button>
     </form>
-
   </main>
   <%- include('../includes/end.ejs') %>

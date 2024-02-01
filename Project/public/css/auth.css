@@ -5,7 +5,7 @@
   min-height: calc(100vh - 200px);
   max-width: 960px;
   width: 100%;
-  margin: 3rem auto;
+  margin: 2rem auto;
 }
 
 .login-form {
@@ -44,4 +44,24 @@
 
 .login-form input {
   width: 320px;
+}
+
+.forgot-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.forgot-reset .reset {
+  font-size: 0.9rem;
+  color: rgb(47, 47, 47);
+  border-bottom: 1px solid rgb(47, 47, 47);
+  margin-left: 0.2rem;
+  padding: 0 0.1rem;
+}
+
+.forgot-reset .reset:hover {
+  color: rgba(47, 47, 47, 0.6);
+  border-color: rgba(47, 47, 47, 0.6);
 }

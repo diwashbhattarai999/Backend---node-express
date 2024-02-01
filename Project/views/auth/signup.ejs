@@ -38,6 +38,11 @@
 
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <button type="submit">Signup</button>
+
+      <div class="forgot-reset">
+        Already registered ?
+        <a href="/login" class="reset">Login</a>
+      </div>
     </form>
   </main>
   <%- include('../includes/end.ejs') %>
