@@ -1,16 +1,14 @@
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
-const nodemailer = require("nodemailer");
-const sendgridTransport = require("nodemailer-sendgrid-transport");
-
+const sgMail = require("@sendgrid/mail");
 const User = require("../models/user");
+require("dotenv").config();
 
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        "SG.2deuDoZlQ0e2gDTnKGsesA.0SGsfE7IEE0fLsDo5kfCf_w7S265DYfN2mu7oNs0uBo",
-    },
-  })
+const Mailjet = require("node-mailjet");
+
+const mailjet = Mailjet.apiConnect(
+  process.env.MJ_APIKEY_PUBLIC,
+  process.env.MJ_APIKEY_PRIVATE
 );
 
 exports.getLogin = (req, res, next) => {
@@ -102,11 +100,30 @@ exports.postSignup = (req, res, next) => {
         .then((result) => {
           req.flash("success", "Registered Suceesfull! Please Login");
           res.redirect("/signup");
-          return transporter.sendMail({
-            to: email,
-            from: "diwashb999@gmail.com",
-            subject: "Signup succeeded!",
-            html: `<div><h1>You successfully signed up!</h1> <a href="http://localhost:4000/login" >Click here</a> to login</div>`,
+          return mailjet.post("send", { version: "v3.1" }).request({
+            Messages: [
+              {
+                From: {
+                  Email: "diwashb999@gmail.com",
+                  Name: "हाम्रो DOKAAN",
+                },
+                To: [
+                  {
+                    Email: email,
+                    Name: "You",
+                  },
+                ],
+                Subject: "Signup succeeded!",
+                TextPart: "Greetings from हाम्रो DOKAAN!",
+                HTMLPart: `
+                  <div>
+                    <h1>You successfully signed up!</h1> 
+                    <a href="http://localhost:3000/login" >Click here</a> 
+                    to login
+                  </div>
+                `,
+              },
+            ],
           });
         })
         .catch((err) => {
@@ -139,4 +156,113 @@ exports.getReset = (req, res, next) => {
     errorMessage,
     successMessage,
   });
+};
+
+exports.postReset = (req, res, next) => {
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/reset");
+    }
+    const token = buffer.toString("hex");
+    User.findOne({ email: req.body.email })
+      .then((user) => {
+        if (!user) {
+          req.flash("error", "No account with that email found.");
+          return res.redirect("/reset");
+        }
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        user.save();
+      })
+      .then((result) => {
+        req.flash("success", "Please check your email for password reset");
+        res.redirect("/reset");
+        return mailjet.post("send", { version: "v3.1" }).request({
+          Messages: [
+            {
+              From: {
+                Email: "diwashb999@gmail.com",
+                Name: "हाम्रो DOKAAN",
+              },
+              To: [
+                {
+                  Email: req.body.email,
+                  Name: "You",
+                },
+              ],
+              Subject: "Password reset!",
+              TextPart: "Greetings from हाम्रो DOKAAN!",
+              HTMLPart: `
+                <div>
+                  <h1>You requested a password reset!</h1> 
+                  <a href="http://localhost:3000/reset/${token}" >Click here</a> 
+                  to reset your password.
+                </div>
+              `,
+            },
+          ],
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+};
+
+exports.getNewPassword = (req, res, next) => {
+  const token = req.params.token;
+  User.findOne({
+    resetToken: token,
+    resetTokenExpiration: { $gt: Date.now() },
+  })
+    .then((user) => {
+      let errorMessage = req.flash("error");
+      let successMessage = req.flash("success");
+
+      errorMessage = errorMessage.length > 0 ? errorMessage[0] : null;
+      successMessage = successMessage.length > 0 ? successMessage[0] : null;
+
+      res.render("auth/new-password", {
+        path: "/new-password",
+        docTitle: "New Password",
+        errorMessage,
+        successMessage,
+        userId: user._id.toString(),
+        passwordToken: token,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+exports.postNewPassword = (req, res, next) => {
+  const newPassword = req.body.password;
+  const userId = req.body.userId;
+  const passwordToken = req.body.passwordToken;
+  let resetUser;
+
+  User.findOne({
+    resetToken: passwordToken,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: userId,
+  })
+    .then((user) => {
+      resetUser = user;
+      return bcrypt.hash(newPassword, 12);
+    })
+    .then((hashedPassword) => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then((result) => {
+      console.log("Redirecting to login...");
+      res.redirect("/login");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
