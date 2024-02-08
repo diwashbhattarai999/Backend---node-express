@@ -7,25 +7,40 @@
   <%- include('../includes/navigation.ejs') %>
 
   <main class="main auth__main">
-    <form class="login-form" action="/signup" method="post">
+    <form class="login-form" action="/signup" method="post" novalidate>
       <div class="login-form__heading">
         <h2>New User?</h2>
         <h3>Register now to get started</h3>
       </div>
       <span></span>
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'email') ? 'form-control invalid' : 'form-control' %>">
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" />
+        <input type="email" name="email" id="email" value="<%= oldInput?.email  %>" />
+
+        <% if(validationErrors.find(e => e.path === 'email')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'email')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'password') ? 'form-control invalid' : 'form-control' %>">
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
+        <input type="password" name="password" id="password" value="<%= oldInput.password  %>" />
+
+        <% if(validationErrors.find(e => e.path === 'password')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'password')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'password' || e.path === 'confirmPassword') ? 'form-control invalid' : 'form-control' %>">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="confirmPassword" />
+        <input type="password" name="confirmPassword" id="confirmPassword" value="<%= oldInput.confirmPassword  %>" />
+
+        <% const passwordError = validationErrors.find(e => e.path === 'password')?.msg %>
+        <% const confirmPasswordError = validationErrors.find(e => e.path === 'confirmPassword')?.msg %>
+
+        <% if(passwordError || confirmPasswordError) { %>
+        <p class="message error-message"><%= passwordError ?? confirmPasswordError %></p>
+        <% } %>
       </div>
 
       <% if(errorMessage) { %>

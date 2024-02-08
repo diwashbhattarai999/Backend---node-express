@@ -116,14 +116,26 @@ main {
   height: 40vh;
 }
 
-.message {
+div.message {
   width: 100%;
+  max-width: 340px;
   text-align: center;
-  padding: 1rem 0;
+  padding: 1rem 0.2rem;
   border-radius: 4px;
 }
 
-.error-message {
+p.message {
+  width: 100%;
+  max-width: 340px;
+  text-align: left;
+}
+
+p.error-message {
+  background: transparent;
+  color: rgb(231, 29, 29);
+}
+
+div.error-message {
   background: #ffd6d6;
   color: rgb(231, 29, 29);
 }

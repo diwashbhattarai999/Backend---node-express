@@ -7,24 +7,40 @@
 
   <main class="main">
     <form class="product-form" action="/admin/<% if(editing) { %>edit-product<% } else { %>add-product<% }  %>" method="post">
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'title') ? 'form-control invalid' : 'form-control' %>">
         <label for="title">Title</label>
-        <input type="text" name="title" id="title" value="<% if(editing) { %><%= product.title %><% } %>" />
+        <input type="text" name="title" id="title" value="<% if(editing || hasError) { %><%= product.title %><% } %>" />
+
+        <% if(validationErrors.find(e => e.path === 'title')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'title')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'imageUrl') ? 'form-control invalid' : 'form-control' %>">
         <label for="imageUrl">Image URL</label>
-        <input type="text" name="imageUrl" id="imageUrl" value="<% if(editing) { %><%= product.imageUrl %><% } %>" />
+        <input type="text" name="imageUrl" id="imageUrl" value="<% if(editing || hasError) { %><%= product.imageUrl %><% } %>" />
+
+        <% if(validationErrors.find(e => e.path === 'imageUrl')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'imageUrl')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'price') ? 'form-control invalid' : 'form-control' %>">
         <label for="price">Price</label>
-        <input type="number" name="price" id="price" step="0.01" value="<% if(editing) { %><%= product.price %><% } %>" />
+        <input type="number" name="price" id="price" step="0.01" value="<% if(editing || hasError) { %><%= product.price %><% } %>" />
+
+        <% if(validationErrors.find(e => e.path === 'price')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'price')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'description') ? 'form-control invalid' : 'form-control' %>">
         <label for="description">Description</label>
-        <textarea type="number" name="description" id="description" rows="5"><% if(editing){ %><%= product.description %><% } %></textarea>
+        <textarea type="number" name="description" id="description" rows="5"><% if(editing || hasError){ %><%= product.description %><% } %></textarea>
+
+        <% if(validationErrors.find(e => e.path === 'description')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'description')?.msg %></p>
+        <% } %>
       </div>
       <% if (editing) { %>
       <input type="hidden" value="<%= product._id  %>" name="productId">

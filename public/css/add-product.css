@@ -18,11 +18,11 @@
 .form-control input {
   display: block;
   font-size: 1.1rem;
-  color: rgb(90, 90, 90)
+  color: rgb(90, 90, 90);
 }
 
 .form-control input,
-textarea {
+.form-control textarea {
   border: 1px solid #d8d8d8;
   font: inherit;
   border-radius: 4px;
@@ -31,6 +31,12 @@ textarea {
 }
 
 .form-control input:focus,
-textarea:focus {
+.form-control textarea:focus {
   border: 1px solid #313332;
+}
+
+.form-control.invalid input,
+.form-control.invalid textarea {
+  border-color: #ff9393;
+  color: #e33f3f;
 }

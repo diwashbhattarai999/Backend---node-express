@@ -1,8 +1,8 @@
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
-const sgMail = require("@sendgrid/mail");
 const User = require("../models/user");
 require("dotenv").config();
+const { validationResult } = require("express-validator");
 
 const Mailjet = require("node-mailjet");
 
@@ -22,17 +22,37 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     docTitle: "Login",
     errorMessage: message,
+    oldInput: { email: "", password: "" },
+    validationErrors: [],
   });
 };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/login", {
+      path: "/login",
+      docTitle: "Login",
+      errorMessage: null,
+      oldInput: { email, password },
+      validationErrors: errors.array(),
+    });
+  }
+
   User.findOne({ email }).then((user) => {
     if (!user) {
-      req.flash("error", "Invalid credentials!");
-      return res.redirect("/login");
+      return res.status(422).render("auth/login", {
+        path: "/login",
+        docTitle: "Login",
+        errorMessage: "Invalid email or password!",
+        oldInput: { email, password },
+        validationErrors: [],
+      });
     }
+
     bcrypt
       .compare(password, user.password)
       .then((isMatched) => {
@@ -44,13 +64,23 @@ exports.postLogin = (req, res, next) => {
             res.redirect("/");
           });
         }
-        req.flash("error", "Invalid credentials!");
-        res.redirect("/login");
+        res.status(422).render("auth/login", {
+          path: "/login",
+          docTitle: "Login",
+          errorMessage: "Invalid email or password!",
+          oldInput: { email, password },
+          validationErrors: [],
+        });
       })
       .catch((err) => {
         console.log(err);
-        req.flash("error", "Invalid credentials!");
-        res.redirect("/login");
+        return res.status(422).render("auth/login", {
+          path: "/login",
+          docTitle: "Login",
+          errorMessage: "Invalid email or password!",
+          oldInput: { email, password },
+          validationErrors: [],
+        });
       });
   });
 };
@@ -73,6 +103,8 @@ exports.getSignup = (req, res, next) => {
     docTitle: "Signup",
     errorMessage,
     successMessage,
+    oldInput: { email: "", password: "", confirmPassword: "" },
+    validationErrors: [],
   });
 };
 
@@ -80,55 +112,59 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
+  const errors = validationResult(req);
 
-  User.findOne({ email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash("error", "Email already in use!");
-        return res.redirect("/signup");
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            email,
-            password: hashedPassword,
-            cart: { items: [] },
-          });
-          return user.save();
-        })
-        .then((result) => {
-          req.flash("success", "Registered Suceesfull! Please Login");
-          res.redirect("/signup");
-          return mailjet.post("send", { version: "v3.1" }).request({
-            Messages: [
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/signup", {
+      path: "/signup",
+      docTitle: "Signup",
+      errorMessage: null,
+      successMessage: null,
+      oldInput: { email, password, confirmPassword },
+      validationErrors: errors.array(),
+    });
+  }
+
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then(() => {
+      req.flash("success", "Registered Suceesfull! Please Login");
+      setTimeout(() => {
+        res.redirect("/login");
+      }, 2000);
+      return mailjet.post("send", { version: "v3.1" }).request({
+        Messages: [
+          {
+            From: {
+              Email: "diwashb999@gmail.com",
+              Name: "हाम्रो DOKAAN",
+            },
+            To: [
               {
-                From: {
-                  Email: "diwashb999@gmail.com",
-                  Name: "हाम्रो DOKAAN",
-                },
-                To: [
-                  {
-                    Email: email,
-                    Name: "You",
-                  },
-                ],
-                Subject: "Signup succeeded!",
-                TextPart: "Greetings from हाम्रो DOKAAN!",
-                HTMLPart: `
+                Email: email,
+                Name: "You",
+              },
+            ],
+            Subject: "Signup succeeded!",
+            TextPart: "Greetings from हाम्रो DOKAAN!",
+            HTMLPart: `
                   <div>
                     <h1>You successfully signed up!</h1> 
                     <a href="http://localhost:3000/login" >Click here</a> 
                     to login
                   </div>
                 `,
-              },
-            ],
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          },
+        ],
+      });
     })
     .catch((err) => {
       req.flash("error", "Something went wrong!");

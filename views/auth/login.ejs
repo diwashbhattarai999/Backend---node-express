@@ -13,14 +13,22 @@
         <h3>Login to your account</h3>
       </div>
       <span></span>
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'email') ? 'form-control invalid' : 'form-control' %>">
         <label for="email">E-mail</label>
-        <input type="email" name="email" id="email" />
+        <input type="email" name="email" id="email" value="<%= oldInput.email  %>" />
+
+        <% if(validationErrors.find(e => e.path === 'email')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'email')?.msg %></p>
+        <% } %>
       </div>
 
-      <div class="form-control">
+      <div class="<%= validationErrors.find(e => e.path === 'password') ? 'form-control invalid' : 'form-control' %>">
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
+        <input type="password" name="password" id="password" value="<%= oldInput.password  %>" />
+
+        <% if(validationErrors.find(e => e.path === 'password')) { %>
+        <p class="message error-message"><%= validationErrors.find(e => e.path === 'password')?.msg %></p>
+        <% } %>
       </div>
 
       <% if(errorMessage) { %>
