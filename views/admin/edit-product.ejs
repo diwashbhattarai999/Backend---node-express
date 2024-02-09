@@ -42,6 +42,12 @@
         <p class="message error-message"><%= validationErrors.find(e => e.path === 'description')?.msg %></p>
         <% } %>
       </div>
+
+      <% if(errorMessage) { %>
+      <div class="message error-message"><%= errorMessage %></div>
+      <% } %>
+
+
       <% if (editing) { %>
       <input type="hidden" value="<%= product._id  %>" name="productId">
       <% } %>

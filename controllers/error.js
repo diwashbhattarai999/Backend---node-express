@@ -6,3 +6,12 @@ exports.getPageNotFound = (req, res, next) => {
     isAuthenticated: req.session.isLoggedIn,
   });
 };
+
+exports.get500 = (req, res, next) => {
+  res.status(500).render("500", {
+    docTitle: "Error",
+    notFoundCSS: true,
+    path: "/500",
+    isAuthenticated: req.session.isLoggedIn,
+  });
+};

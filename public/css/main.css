@@ -113,7 +113,10 @@ main {
 }
 
 .center__main {
-  height: 40vh;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 div.message {

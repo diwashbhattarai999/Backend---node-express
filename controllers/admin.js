@@ -9,9 +9,9 @@ exports.getAddProduct = (req, res, next) => {
     docTitle: "Add Product",
     path: "/admin/add-product",
     editing: false,
-    isAuthenticated: req.session.isLoggedIn,
     validationErrors: [],
     hasError: false,
+    errorMessage: null,
   });
 };
 
@@ -35,9 +35,9 @@ exports.postAddProduct = (req, res, next) => {
       docTitle: "Add Product",
       editing: false,
       product,
-      isAuthenticated: req.session.isLoggedIn,
       validationErrors: errors.array(),
       hasError: true,
+      errorMessage: null,
     });
   }
 
@@ -47,7 +47,21 @@ exports.postAddProduct = (req, res, next) => {
       console.log("Created Product");
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // return res.status(500).render("admin/edit-product", {
+      //   path: "/admin/add-product",
+      //   docTitle: "Add Product",
+      //   editing: false,
+      //   product,
+      //   validationErrors: [],
+      //   hasError: true,
+      //   errorMessage: "Database operation failed, please try again!",
+      // });
+      // res.redirect("/500");
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -66,12 +80,16 @@ exports.getEditProduct = (req, res, next) => {
         path: "/admin/edit-product",
         editing: editMode,
         product,
-        isAuthenticated: req.session.isLoggedIn,
         validationErrors: [],
         hasError: false,
+        errorMessage: null,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -94,9 +112,9 @@ exports.postEditProduct = (req, res, next) => {
         imageUrl: updatedImageUrl,
         _id: prodId,
       },
-      isAuthenticated: req.session.isLoggedIn,
       validationErrors: errors.array(),
       hasError: true,
+      errorMessage: null,
     });
   }
 
@@ -115,7 +133,11 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect("/admin/products");
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -124,7 +146,11 @@ exports.postDeleteProduct = (req, res, next) => {
     .then((result) => {
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.getProducts = (req, res, next) => {
@@ -132,13 +158,15 @@ exports.getProducts = (req, res, next) => {
     // .select("title price -_id")
     // .populate("userId", "name")
     .then((products) => {
-      // console.log(products);
       res.render("admin/products", {
         prods: products,
         docTitle: "Admin Products",
         path: "/admin/products",
-        isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };

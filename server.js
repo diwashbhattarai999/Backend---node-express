@@ -10,7 +10,7 @@ const flash = require("connect-flash");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
-const { getPageNotFound } = require("./controllers/error");
+const { getPageNotFound, get500 } = require("./controllers/error");
 const User = require("./models/user");
 
 const MONGODB_URI =
@@ -45,12 +45,14 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
     .catch((err) => {
-      console.log(err);
-      next(err);
+      throw new Error(err);
     });
 });
 
@@ -63,7 +65,13 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes.routes);
 app.use(shopRoutes);
 app.use(authRoutes);
+
+app.get("/500", get500);
 app.use(getPageNotFound);
+
+app.use((err, req, res, next) => {
+  res.redirect("/500");
+});
 
 mongoose
   .connect(MONGODB_URI)
