@@ -10,7 +10,7 @@
       <% products.forEach(p => { %>
       <li class="cart__item">
         <div class="cart__item-info">
-          <img class="cart__item-img" src="<%= p.productId.imageUrl %>" alt="<%= p.title %>">
+          <img class="cart__item-img" src="/<%= p.productId.imageUrl %>" alt="<%= p.title %>">
           <h3><%= p.productId.title %></h3>
         </div>
         <h5>Quantity: <%= p.quantity %></h5>

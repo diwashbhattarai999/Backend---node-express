@@ -151,3 +151,8 @@
   font-size: 0.9rem;
   font-weight: 500;
 }
+
+.invoice {
+  color: rgb(28, 28, 255);
+  text-decoration: underline;
+}

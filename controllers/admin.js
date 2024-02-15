@@ -1,5 +1,8 @@
 const { validationResult } = require("express-validator");
+
 const Product = require("../models/product");
+
+const fileHelper = require("../utils/file");
 
 exports.getAddProduct = (req, res, next) => {
   if (!req.session.isLoggedIn) {
@@ -19,7 +22,24 @@ exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const price = req.body.price;
   const description = req.body.description;
-  const imageUrl = req.body.imageUrl;
+  const image = req.file;
+
+  if (!image) {
+    console.log("No file attached.");
+    // Handle the case when no file is uploaded, e.g., by returning an error response.
+    return res.status(422).render("admin/edit-product", {
+      path: "/admin/add-product",
+      docTitle: "Add Product",
+      editing: false,
+      product: { title, price, description },
+      validationErrors: [],
+      hasError: true,
+      errorMessage: "Attached file is not an image.",
+    });
+  }
+
+  const imageUrl = image.path;
+
   const product = new Product({
     title,
     price,
@@ -48,16 +68,6 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      // return res.status(500).render("admin/edit-product", {
-      //   path: "/admin/add-product",
-      //   docTitle: "Add Product",
-      //   editing: false,
-      //   product,
-      //   validationErrors: [],
-      //   hasError: true,
-      //   errorMessage: "Database operation failed, please try again!",
-      // });
-      // res.redirect("/500");
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
@@ -96,8 +106,26 @@ exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
+  // const updatedImageUrl = req.body.imageUrl;
   const updatedDescription = req.body.description;
+
+  const image = req.file;
+
+  // if (!image) {
+  //   console.log("No file attached.");
+  //   // Handle the case when no file is uploaded, e.g., by returning an error response.
+  //   return res.status(422).render("admin/edit-product", {
+  //     path: "/admin/edit-product",
+  //     docTitle: "Edit Product",
+  //     editing: false,
+  //     product: { title, price, description },
+  //     validationErrors: [],
+  //     hasError: true,
+  //     errorMessage: "Attached file is not an image.",
+  //   });
+  // }
+
+  // const updatedImageUrl = image.path;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -109,7 +137,7 @@ exports.postEditProduct = (req, res, next) => {
         title: updatedTitle,
         price: updatedPrice,
         description: updatedDescription,
-        imageUrl: updatedImageUrl,
+        // imageUrl: updatedImageUrl,
         _id: prodId,
       },
       validationErrors: errors.array(),
@@ -126,7 +154,12 @@ exports.postEditProduct = (req, res, next) => {
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.description = updatedDescription;
-      product.imageUrl = updatedImageUrl;
+      // product.imageUrl = updatedImageUrl;
+
+      if (image) {
+        fileHelper.deleteFile(product.imageUrl);
+        product.imageUrl = image.path;
+      }
 
       return product.save().then(() => {
         console.log("UPDATED PRODUCT!");
@@ -142,8 +175,18 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteOne({ _id: prodId, userId: req.body._id })
+
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        return next(new Error("Product not found"));
+      }
+      fileHelper.deleteFile(product.imageUrl);
+      return Product.deleteOne({ _id: prodId, userId: req.user._id });
+    })
+
     .then((result) => {
+      console.log("DELETED PRODUCT!");
       res.redirect("/admin/products");
     })
     .catch((err) => {

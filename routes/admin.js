@@ -32,13 +32,6 @@ router.post(
       .isString()
       .isLength({ min: 3 })
       .trim(),
-    body(
-      "imageUrl",
-      "Please enter a valid image URL with a length between 5 and 400 characters."
-    )
-      .isString()
-      .isLength({ min: 5, max: 400 })
-      .trim(),
   ],
   isAuth,
   postAddProduct
@@ -65,13 +58,6 @@ router.post(
     )
       .isString()
       .isLength({ min: 3 })
-      .trim(),
-    body(
-      "imageUrl",
-      "Please enter a valid image URL with a length between 5 and 400 characters."
-    )
-      .isString()
-      .isLength({ min: 5, max: 400 })
       .trim(),
   ],
   isAuth,
