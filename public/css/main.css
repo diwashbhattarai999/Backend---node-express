@@ -18,6 +18,12 @@ img {
   width: 100%;
 }
 
+.main {
+  max-width: 1300px;
+  width: 90% !important;
+  margin: 3rem auto !important;
+}
+
 .main-header {
   width: 100%;
   height: 62px;
@@ -148,6 +154,46 @@ div.error-message {
   background: #edffd6;
   color: rgb(29, 231, 29);
 }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 4rem 0 4rem 0;
+}
+
+.pagination a {
+  display: flex;
+  gap: 1.2rem;
+  width: auto;
+}
+
+.pagination a.active {
+  background-color: #ff5c10;
+}
+
+.pagination a.active:hover {
+  background-color: #ff7230;
+}
+
+.pagination a.disabled {
+  background-color: #4c4c4c;
+  cursor: not-allowed;
+}
+
+/* .pagination a {
+  text-decoration: none;
+  background-color: #121212;
+  color: rgb(233, 233, 233);
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.pagination a:hover {
+  background-color: #212121;
+  color: rgb(233, 233, 233);
+} */
 
 @media screen and (max-width: 860px) {
   .main-header {

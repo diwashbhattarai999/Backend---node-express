@@ -1,1 +1,275 @@
-[{"id":"1234","title":"Nike | Sport shoes","imageUrl":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHN8ZW58MHx8MHx8fDA%3D","description":" This is a nike shoes. ","price":"299"},{"id":"6345764","title":"Sunscream","imageUrl":"https://plus.unsplash.com/premium_photo-1675431443027-ad1f46c93c8d?q=80&w=1916&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D","description":"Best skin protector sunscream","price":"12.99"}]
+[
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a806"
+    },
+    "title": "Book 1",
+    "price": 12.99,
+    "description": "This is an awesome and beautiful book.",
+    "imageUrl": "images\\1707924367451-665099536-book1.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdbc29001d8148905a816"
+    },
+    "title": "Book 2",
+    "price": 9.99,
+    "description": "This is also an awesome book.",
+    "imageUrl": "images\\1707924418338-917259092-book2.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdbe59001d8148905a81c"
+    },
+    "title": "Book 3",
+    "price": 5.99,
+    "description": "This is beautiful but not awesome book.",
+    "imageUrl": "images\\1707924453039-897271030-book3.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a826"
+    },
+    "title": "Movie DVD",
+    "price": 9.99,
+    "description": "Enjoy the latest blockbuster on DVD with amazing visuals.",
+    "imageUrl": "images\\1707924367451-665099536-movie-dvd.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a827"
+    },
+    "title": "Smartphone",
+    "price": 399.99,
+    "description": "Stay connected with this powerful and sleek smartphone.",
+    "imageUrl": "images\\1707924367451-665099536-smartphone.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a828"
+    },
+    "title": "Laptop",
+    "price": 899.99,
+    "description": "Enhance your productivity with this high-performance laptop.",
+    "imageUrl": "images\\1707924367451-665099536-laptop.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a829"
+    },
+    "title": "Fitness Tracker",
+    "price": 49.99,
+    "description": "Achieve your fitness goals with this advanced tracker.",
+    "imageUrl": "images\\1707924367451-665099536-fitness-tracker.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a830"
+    },
+    "title": "Coffee Maker",
+    "price": 79.99,
+    "description": "Brew your favorite coffee at home with this stylish coffee maker.",
+    "imageUrl": "images\\1707924367451-665099536-coffee-maker.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a831"
+    },
+    "title": "Gaming Console",
+    "price": 299.99,
+    "description": "Experience gaming like never before with this cutting-edge console.",
+    "imageUrl": "images\\1707924367451-665099536-gaming-console.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a832"
+    },
+    "title": "Bluetooth Headphones",
+    "price": 59.99,
+    "description": "Immerse yourself in music with these wireless headphones.",
+    "imageUrl": "images\\1707924367451-665099536-bluetooth-headphones.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a833"
+    },
+    "title": "Digital Camera",
+    "price": 299.99,
+    "description": "Capture memories in high resolution with this advanced digital camera.",
+    "imageUrl": "images\\1707924367451-665099536-digital-camera.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a834"
+    },
+    "title": "Wireless Keyboard",
+    "price": 29.99,
+    "description": "Enhance your typing experience with this sleek wireless keyboard.",
+    "imageUrl": "images\\1707924367451-665099536-wireless-keyboard.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a835"
+    },
+    "title": "Smart Watch",
+    "price": 79.99,
+    "description": "Stay connected and monitor your health with this stylish smartwatch.",
+    "imageUrl": "images\\1707924367451-665099536-smart-watch.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a836"
+    },
+    "title": "Portable Speaker",
+    "price": 39.99,
+    "description": "Enjoy high-quality sound on the go with this portable Bluetooth speaker.",
+    "imageUrl": "images\\1707924367451-665099536-portable-speaker.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a837"
+    },
+    "title": "Desk Lamp",
+    "price": 19.99,
+    "description": "Illuminate your workspace with this modern and adjustable desk lamp.",
+    "imageUrl": "images\\1707924367451-665099536-desk-lamp.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a838"
+    },
+    "title": "Wireless Mouse",
+    "price": 24.99,
+    "description": "Navigate seamlessly with this ergonomic wireless mouse.",
+    "imageUrl": "images\\1707924367451-665099536-wireless-mouse.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a839"
+    },
+    "title": "Outdoor Grill",
+    "price": 149.99,
+    "description": "Host the perfect barbecue with this durable outdoor grill.",
+    "imageUrl": "images\\1707924367451-665099536-outdoor-grill.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a840"
+    },
+    "title": "E-book Reader",
+    "price": 129.99,
+    "description": "Access your favorite books digitally with this advanced e-book reader.",
+    "imageUrl": "images\\1707924367451-665099536-ebook-reader.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a841"
+    },
+    "title": "Travel Backpack",
+    "price": 49.99,
+    "description": "Pack your essentials in style with this versatile travel backpack.",
+    "imageUrl": "images\\1707924367451-665099536-travel-backpack.jpg",
+    "userId": {
+      "$oid": "65ccd186ba6d1a9328aaf0c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a842"
+    },
+    "title": "Air Purifier",
+    "price": 89.99,
+    "description": "Ensure clean and fresh air with this powerful air purifier.",
+    "imageUrl": "images\\1707924367451-665099536-air-purifier.jpg",
+    "userId": {
+      "$oid": "65c504e70f92ff10674e893c"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65ccdb8f9001d8148905a843"
+    },
+    "title": "Robot Vacuum Cleaner",
+    "price": 199.99,
+    "description": "Effortlessly maintain a clean home with this intelligent robot vacuum cleaner.",
+    "imageUrl": "images\\1707924367451-665099536-robot-vacuum-cleaner.jpg",
+    "userId": {
+      "$oid": "65c505397360ba27e3ce5534"
+    },
+    "__v": 0
+  }
+]
