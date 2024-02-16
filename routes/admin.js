@@ -7,7 +7,7 @@ const {
   getProducts,
   getEditProduct,
   postEditProduct,
-  postDeleteProduct,
+  deleteProduct,
 } = require("../controllers/admin");
 const isAuth = require("../middleware/is-auth");
 
@@ -64,6 +64,6 @@ router.post(
   postEditProduct
 );
 
-router.post("/delete-product", isAuth, postDeleteProduct);
+router.delete("/product/:productId", isAuth, deleteProduct);
 
 exports.routes = router;
