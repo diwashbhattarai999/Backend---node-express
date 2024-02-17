@@ -1,5 +1,7 @@
-const fs = require("fs");
 const path = require("path");
+const Stripe = require("stripe")(
+  "sk_test_51OkN9dSDLHuOu92tl364oPlrHqklpnZEgTr1PbXKILyQtFtVlLgPpOslnIiEN2AbiIJoNdhDyoKqjohCWocumjiR008Rbu1LmE"
+);
 
 const Product = require("../models/product");
 const Order = require("../models/order");
@@ -142,7 +144,59 @@ exports.getOrders = (req, res, next) => {
     });
 };
 
-exports.postOrder = (req, res, next) => {
+exports.getCheckout = (req, res, next) => {
+  let products;
+  let total = 0;
+
+  req.user
+    .populate("cart.items.productId")
+    .then((user) => {
+      products = user.cart.items;
+      total = 0;
+      products.forEach((product) => {
+        total += product.quantity * product.productId.price;
+      });
+
+      // console.log(products);
+      return Stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: products.map((p) => {
+          return {
+            price_data: {
+              currency: "inr",
+              unit_amount: p.productId.price * 100,
+              product_data: {
+                name: p.productId.title,
+                description: p.productId.description,
+              },
+            },
+            quantity: p.quantity,
+          };
+        }),
+        mode: "payment",
+        success_url:
+          req.protocol + "://" + req.get("host") + "/checkout/success",
+        cancel_url: req.protocol + "://" + req.get("host") + "/checkout/cancel",
+      });
+    })
+    .then((session) => {
+      // console.log(session);
+      res.render("shop/checkout", {
+        path: "/checkout",
+        docTitle: "Checkout",
+        products: products,
+        totalSum: total,
+        sessionId: session.id,
+      });
+    })
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+
+exports.getCheckoutSuccess = (req, res, next) => {
   req.user
     .populate("cart.items.productId")
     .then((user) => {
@@ -230,10 +284,3 @@ exports.getInvoice = (req, res, next) => {
       console.log(err);
     });
 };
-
-// exports.getCheckout = (req, res, next) => {
-//   res.render("/shop/checkout", {
-//     path: "/checkout",
-//     docTitle: "Checkout",
-//   });
-// };

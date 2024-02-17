@@ -88,6 +88,7 @@ button,
   color: white;
   padding: 12px;
   border-radius: 3px;
+  text-align: center;
   font-size: 1.1rem;
   font-weight: 600;
   font-family: monospace;
@@ -121,6 +122,12 @@ main {
 
 .center__main {
   height: 60vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.checkout__main {
   display: flex;
   flex-direction: column;
   gap: 2rem;

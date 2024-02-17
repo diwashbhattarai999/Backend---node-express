@@ -101,6 +101,7 @@ app.get("/500", get500);
 app.use(getPageNotFound);
 
 app.use((err, req, res, next) => {
+  console.log("Something went wrong", err);
   res.redirect("/500");
 });
 
