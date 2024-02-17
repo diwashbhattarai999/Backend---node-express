@@ -217,6 +217,16 @@ div.error-message {
 
   .prevBtn,
   .nextBtn {
-    display: hidden;
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .pagination {
+    gap: 0.6rem;
+  }
+
+  .pagination a {
+    padding: 9px;
   }
 }
