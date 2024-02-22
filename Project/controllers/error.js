@@ -3,5 +3,6 @@ exports.getPageNotFound = (req, res, next) => {
     docTitle: "Page Not Found",
     notFoundCSS: true,
     path: req.path,
+    isAuthenticated: req.session.isLoggedIn,
   });
 };
